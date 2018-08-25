@@ -8,6 +8,7 @@ import { MenuEntry } from '../../interfaces/menu-entry';
 })
 export class HeaderComponent implements OnInit {
 
+  menuIsCollapsed = true;
   iconPath = 'assets/images/icons/128x128/';
   // The concrete menu-entries the user has permissions to access
   userMenuEntries: MenuEntry[];
@@ -18,6 +19,12 @@ export class HeaderComponent implements OnInit {
       iconPath: this.iconPath + '053-user-35.png',
       menuName: 'ADMIN TOOLS',
       routeUrl: 'admin'
+    },
+    {
+      title: 'MAIN',
+      iconPath: '',
+      menuName: 'MAIN',
+      routeUrl: 'main'
     },
   ]
 
