@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ErrorComponent } from './outer/error/error.component';
+import { AdminGuard } from './inner/admin/admin.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: 'app/inner/admin/admin.module#AdminModule'
+    loadChildren: 'app/inner/admin/admin.module#AdminModule',
+    canActivate: [AdminGuard]
   },
   {
     path: 'error',

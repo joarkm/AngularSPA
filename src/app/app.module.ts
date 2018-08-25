@@ -10,6 +10,7 @@ import { FooterComponent } from './outer/footer/footer.component';
 import { ErrorModule } from './outer/error/error.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
+import { AdminGuard } from './inner/admin/admin.guard';
 
 
 @NgModule({
@@ -24,9 +25,11 @@ import { SharedModule } from './shared/shared.module';
   ],
   declarations: [
     AppComponent,
-    FooterComponent
+    FooterComponent,
   ],
-  providers: [],
+  providers: [
+    AdminGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
