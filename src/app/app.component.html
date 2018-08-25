@@ -1,4 +1,7 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
-<div style="margin-bottom: 100px"></div>
+
+<div class="page-content" [ngStyle]="{'min-height': clientHeight + 'px'}">
+    <router-outlet></router-outlet>
+    <div class="footer-gap"></div>
+</div>
 <app-footer></app-footer>
