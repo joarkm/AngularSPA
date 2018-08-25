@@ -1,20 +1,22 @@
-<header>
-    <nav class="navbar navbar-dark bg-spa">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <button class="btn btn-sm btn-spa" type="button" (click)="menuIsCollapsed = !menuIsCollapsed">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" [ngbCollapse]="menuIsCollapsed">
-                    <div class="row">
-                        <div class="col-sm mx-auto mt-2" *ngFor="let menuEntry of userMenuEntries">
-                            <button class="btn btn-spa btn-sm" routerLink="/{{menuEntry.routeUrl}}">
-                                <img src="{{menuEntry.iconPath}}" height="24px"> {{menuEntry.menuName}}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
+<header class="main-nav">
+    <nav class="navbar navbar-dark bg-spa navbar-inverse">
+        <div class='navbar-header'>
+            <button class="btn btn-sm btn-spa" type="button" (click)="menuIsCollapsed = !menuIsCollapsed">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button class="btn btn-sm btn-spa" routerLink="/">
+                <img src="{{iconPath}}/white/home.png" height="16px">
+            </button>
+        </div>
+        <div class='clearfix'></div>
+        <div class="collapse navbar-collapse" [ngbCollapse]="menuIsCollapsed">
+            <ul class='nav navbar-nav'>
+                <li *ngFor="let menuEntry of userMenuEntries" [routerLinkActive]="['link-active']">
+                    <button class="btn btn-spa btn-sm" routerLink="/{{menuEntry.routeUrl}}">
+                        <img src="{{menuEntry.iconPath}}" height="24px"> {{menuEntry.menuName}}
+                    </button>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
