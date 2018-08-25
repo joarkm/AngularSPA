@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './outer/footer/footer.component';
 import { ErrorModule } from './outer/error/error.module';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
     ErrorModule,
     RouterModule,
     NgbModule.forRoot(),
+    SharedModule
   ],
   declarations: [
     AppComponent,

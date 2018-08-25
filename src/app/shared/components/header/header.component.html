@@ -1,0 +1,16 @@
+<header>
+  <nav class="navbar navbar-dark bg-spa">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <div class="btn-group">
+                <button class="btn btn-spa btn-sm" routerLink="/main">Main</button>
+            </div>
+            <div class="btn-group" *ngFor="let menuEntry of userMenuEntries">
+                <button class="btn btn-spa btn-sm" routerLink="/{{menuEntry.routeUrl}}">
+                  <img src="{{menuEntry.iconPath}}" height="24px"> {{menuEntry.menuName}}
+                </button>
+            </div>
+        </li>
+    </ul>
+</nav>
+</header>
