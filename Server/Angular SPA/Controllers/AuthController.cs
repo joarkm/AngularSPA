@@ -27,8 +27,12 @@ namespace AngularSPA.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
-            var hash = _dbContext.User
-                .Where(usr => usr.UserName.Equals(credentials.UserName))
+            var userQueryAble = _dbContext.User
+                .Where(usr => usr.UserName.Equals(credentials.UserName));
+            if (!userQueryAble.Any())
+                return BadRequest();
+
+            var hash = userQueryAble
                 .Include(usr => usr.Password)
                 .Select(usr => usr.Password.Hash)
                 .FirstOrDefault();
