@@ -19,26 +19,6 @@ namespace AngularSPA
         {
             var host = BuildWebHost(args);
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-
-                try
-                {
-                    var _IDbContext = services.GetRequiredService<IDbContext>();
-                    var dbContext = _IDbContext as ApplicationDbContext;
-                    dbContext.Database.EnsureCreated();
-                    dbContext.Database.Migrate();
-                    var dbInitializer = new DbInitializer(dbContext);
-                    dbInitializer.SeedContext();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
-            }
-
             host.Run();
         }
 

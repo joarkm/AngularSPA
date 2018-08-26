@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AngularSPA.Data;
+using AngularSPA.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.Sqlite;
@@ -44,8 +45,11 @@ namespace AngularSPA
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlite(connection)
                 .Options;
+
+            var dbContextFactory = new DbContextFactory(dbContextOptions);
             
-            services.TryAddScoped<IDbContext>(ctx => new ApplicationDbContext(dbContextOptions));
+            services.TryAddScoped<IDbContext>(ctx => dbContextFactory.CreateUserDbContext());
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             services.AddMvc();
         }

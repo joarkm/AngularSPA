@@ -12,7 +12,7 @@ namespace AngularSPA.Helpers
 
     public class PasswordHasher : IPasswordHasher
     {
-        /* Implementations from https://stackoverflow.com/a/10402129/7949327 */
+        /* Implementation from https://stackoverflow.com/a/10402129/7949327 */
 
         public string CreatePasswordHash(string password)
         {

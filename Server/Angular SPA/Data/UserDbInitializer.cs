@@ -9,16 +9,28 @@ namespace AngularSPA.Data
     public class UserDbInitializer : IDbInitializer
     {
         private readonly IDbContext _dbContext;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly Credentials _credentials;
-        private readonly PasswordHasher _passwordHasher;
 
         public UserDbInitializer(
             IDbContext dbContext,
-            Credentials credentials,
-            PasswordHasher passwordHasher
+            IPasswordHasher passwordHasher,
+            Credentials credentials = null
         )
         {
+            if (credentials == null)
+            {
+                _credentials = new Credentials
+                {
+                    UserName = "unknown",
+                    Password = "secret"
+                };
+            }
+            else
+            {    
             _credentials = credentials;
+            }
+
             _passwordHasher = passwordHasher;
             _dbContext = dbContext;
         }
