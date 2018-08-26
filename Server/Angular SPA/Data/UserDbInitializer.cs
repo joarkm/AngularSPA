@@ -35,7 +35,7 @@ namespace AngularSPA.Data
                 return false;
             }
             
-            return SeedRoles() && SeedAdminUser();
+            return SeedRoles() && SeedAdminUser() && SeedRegularUser();
         }
 
         private bool SeedRoles()
@@ -81,6 +81,24 @@ namespace AngularSPA.Data
                 Role = adminRole
             };
             _dbContext.User.Add(adminUser);
+            return Convert.ToBoolean(_dbContext.SaveChanges());
+        }
+
+        private bool SeedRegularUser()
+        {
+            var role = _dbContext.Role
+                .FirstOrDefault(rol => rol.Name.Equals("Regular User"));
+            if (role == null) return false;
+            var user = new User
+            {
+                UserName = "regular",
+                Password = new Password
+                {
+                    Hash = _passwordHasher.CreatePasswordHash("default")
+                },
+                Role = role
+            };
+            _dbContext.User.Add(user);
             return Convert.ToBoolean(_dbContext.SaveChanges());
         }
     }
