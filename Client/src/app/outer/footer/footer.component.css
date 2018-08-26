@@ -1,0 +1,30 @@
+@media (min-width: 768px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+        right: 0;
+        z-index: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+}
+
+footer {
+    color: var(--color-primary-text);
+}
+
+.footer-section {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

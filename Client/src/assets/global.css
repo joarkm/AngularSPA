@@ -1,0 +1,65 @@
+/* Color palette */
+:root {
+    --color-primary: #333;
+    --color-primary-light: #648b67;
+    --color-primary-medium: #4e9154;
+    --color-primary-dark: #000128;
+    --color-primary-text: #ffffff;
+}
+
+div .bg-spa {
+    background-color: var(--color-primary);
+}
+
+.bg-spa {
+    background-color: var(--color-primary);
+}
+
+div .bg-spa-light {
+    background-color: var(--color-primary-light);
+}
+.btn-spa { 
+    color: var(--color-primary-text);
+    background-color: #4e9154;
+    border-color: var(--color-primary-light);
+}
+.btn-spa-light { 
+    color: var(--color-primary-text);
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-medium);
+}
+
+.btn-spa:hover,
+.btn-spa-light:hover,
+.btn-spa:focus,
+.btn-spa-light:focus, 
+.btn-spa:active,
+.btn-spa-light:active, 
+.btn-spa.active,
+.btn-spa-light.active, 
+.open .dropdown-toggle.btn-spa { 
+    color: var(--color-primary-text);
+    background-color: var(--color-primary); 
+    border-color: var(--color-primary-light);
+}
+/* -------------------------------------------- */
+
+/* Behaviour */
+.clickable {
+    cursor: pointer;
+}
+.non-clickable {
+    pointer-events: none;
+}
+.no-wrap {
+    white-space: nowrap;
+}
+/* -------------------------------------------- */
+
+/* Styling */
+.no-underline {
+    text-decoration: none;
+}
+a .no-underline {
+    text-decoration: none;
+}
