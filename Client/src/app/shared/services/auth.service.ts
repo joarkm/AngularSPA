@@ -14,6 +14,7 @@ export class AuthService {
   private _loggedInSource = new BehaviorSubject<boolean>(false);
   loggedIn$ = this._loggedInSource.asObservable();
   private loggedIn = false;
+  isAdmin: boolean;
 
   constructor(
     private http: HttpClient
@@ -27,6 +28,7 @@ export class AuthService {
     .map(res => {
       this.loggedIn = true;
       this._loggedInSource.next(true);
+      this.isAdmin = res;
       return res;
     })
     .catch(this.handleError);
