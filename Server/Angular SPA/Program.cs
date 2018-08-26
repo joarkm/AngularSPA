@@ -30,7 +30,7 @@ namespace AngularSPA
                     dbContext.Database.EnsureCreated();
                     dbContext.Database.Migrate();
                     var dbInitializer = new DbInitializer(dbContext);
-                    dbInitializer.SeedContext().GetAwaiter().GetResult();
+                    dbInitializer.SeedContext();
                 }
                 catch (Exception ex)
                 {
