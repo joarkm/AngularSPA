@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ErrorComponent } from './outer/error/error.component';
 import { AdminGuard } from './inner/admin/admin.guard';
+import { LoginComponent } from './outer/login/login.component';
 
 const routes: Routes = [
   {
@@ -18,8 +19,12 @@ const routes: Routes = [
     component: ErrorComponent
   },
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: '',
-    redirectTo: '',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   

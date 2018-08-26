@@ -11,6 +11,7 @@ import { ErrorModule } from './outer/error/error.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { AdminGuard } from './inner/admin/admin.guard';
+import { LoginModule } from './outer/login/login.module';
 
 
 @NgModule({
@@ -19,9 +20,10 @@ import { AdminGuard } from './inner/admin/admin.guard';
     HttpClientModule,
     AppRoutingModule,
     ErrorModule,
+    LoginModule,
     RouterModule,
     NgbModule.forRoot(),
-    SharedModule
+    SharedModule.forRoot()
   ],
   declarations: [
     AppComponent,

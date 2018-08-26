@@ -36,9 +36,14 @@ namespace AngularSPA.Controllers
                 .Include(usr => usr.Password)
                 .Select(usr => usr.Password.Hash)
                 .FirstOrDefault();
-            if (_passwordHasher.VerifyPassword(credentials.Password, hash))
-                return Ok();
-            return BadRequest();
+            if (!_passwordHasher.VerifyPassword(credentials.Password, hash))
+                return BadRequest();
+
+            // Check if admin
+            var isAdmin = userQueryAble
+                .Include(usr => usr.Role)
+                .Any(usr => usr.Role.Name.Equals("Admin"));
+            return Ok(isAdmin);
         }
     }
 }
