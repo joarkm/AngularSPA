@@ -1,7 +1,7 @@
-<header class="main-nav">
-    <nav class="navbar navbar-dark bg-spa navbar-inverse">
+<div class="main-nav">
+    <div class="navbar navbar-inverse navbar-dark bg-spa">
         <div class='navbar-header'>
-            <button class="btn btn-sm btn-spa" type="button" (click)="menuIsCollapsed = !menuIsCollapsed">
+            <button type="button" class="btn btn-sm btn-spa navbar-toggle" type="button" (click)="menuIsCollapsed = !menuIsCollapsed">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <button class="btn btn-sm btn-spa" routerLink="/">
@@ -9,14 +9,18 @@
             </button>
         </div>
         <div class='clearfix'></div>
-        <div class="collapse navbar-collapse" [ngbCollapse]="menuIsCollapsed">
+        <div class="navbar-collapse collapse" [ngbCollapse]="menuIsCollapsed">
             <ul class='nav navbar-nav'>
                 <li *ngFor="let menuEntry of userMenuEntries" [routerLinkActive]="['link-active']">
-                    <button class="btn btn-spa btn-sm" routerLink="/{{menuEntry.routeUrl}}">
-                        <img src="{{menuEntry.iconPath}}" height="24px"> {{menuEntry.menuName}}
-                    </button>
+                    <div class="mt-2">
+                        <a routerLink="/{{menuEntry.routeUrl}}">
+                            <button class="btn btn-spa-light btn-sm">
+                                <img src="{{menuEntry.iconPath}}" height="24px"> {{menuEntry.menuName}}
+                            </button>
+                        </a>
+                    </div>
                 </li>
             </ul>
         </div>
-    </nav>
-</header>
+    </div>
+</div>
