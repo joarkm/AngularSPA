@@ -3,17 +3,18 @@ using AngularSPA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace AngularSPA.Data
 {
     public class UserDbInitializer : IDbInitializer
     {
-        private readonly IDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
         private readonly IPasswordHasher _passwordHasher;
         private readonly Credentials _credentials;
 
         public UserDbInitializer(
-            IDbContext dbContext,
+            ApplicationDbContext dbContext,
             IPasswordHasher passwordHasher,
             Credentials credentials = null
         )
@@ -37,6 +38,15 @@ namespace AngularSPA.Data
 
         public bool SeedContext()
         {
+            try
+            {
+                _dbContext.Database.EnsureCreated();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
             return SeedRoles() && SeedAdminUser();
         }
 

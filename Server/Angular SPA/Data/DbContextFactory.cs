@@ -24,9 +24,6 @@ namespace AngularSPA.Data
         public IDbContext CreateUserDbContext()
         {
             var userDbContext = new ApplicationDbContext(_dbContextOptions);
-            userDbContext.Database.OpenConnection();
-            userDbContext.Database.EnsureCreated();
-            userDbContext.Database.Migrate();
             var initializer = new UserDbInitializer(userDbContext, new PasswordHasher(), _credentials);
             initializer.SeedContext();
             return userDbContext;
