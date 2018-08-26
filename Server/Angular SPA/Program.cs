@@ -3,18 +3,43 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AngularSPA.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Angular_SPA
+namespace AngularSPA
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var _IDbContext = services.GetRequiredService<IDbContext>();
+                    var dbContext = _IDbContext as ApplicationDbContext;
+                    dbContext.Database.EnsureCreated();
+                    dbContext.Database.Migrate();
+                    var dbInitializer = new DbInitializer(dbContext);
+                    dbInitializer.SeedContext().GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
+            }
+
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
