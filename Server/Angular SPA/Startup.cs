@@ -46,7 +46,11 @@ namespace AngularSPA
                 .UseSqlite(connection)
                 .Options;
 
-            var dbContextFactory = new DbContextFactory(dbContextOptions);
+            // Read admin user credentials from appsettings
+            var credentialsSection = Configuration.GetSection(nameof(Credentials));
+            var adminUserCredentials = credentialsSection.GetSection("Admin").Get<Credentials>();
+
+            var dbContextFactory = new DbContextFactory(dbContextOptions, adminUserCredentials);
             
             services.TryAddScoped<IDbContext>(ctx => dbContextFactory.CreateUserDbContext());
             services.AddSingleton<IPasswordHasher, PasswordHasher>();

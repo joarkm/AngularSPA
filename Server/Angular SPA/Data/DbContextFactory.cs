@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AngularSPA.Helpers;
+﻿using AngularSPA.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace AngularSPA.Data
@@ -14,7 +10,7 @@ namespace AngularSPA.Data
 
         public DbContextFactory(
             DbContextOptions<ApplicationDbContext> dbContextOptions,
-            Credentials credentials = null
+            Credentials credentials
         )
         {
             _dbContextOptions = dbContextOptions;
