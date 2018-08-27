@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace AngularSPA.Helpers
+namespace AngularSPA.Auth
 {
     public class JwtIssuerOptions
     {
