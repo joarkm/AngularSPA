@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AngularSPA.Data;
+using AngularSPA.Extensions;
 using AngularSPA.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,11 +56,7 @@ namespace AngularSPA
                 .UseSqlite(connection)
                 .Options;
 
-            // Read admin user credentials from appsettings
-            var credentialsSection = Configuration.GetSection(nameof(Credentials));
-            var adminUserCredentials = credentialsSection.GetSection("Admin").Get<Credentials>();
-
-            var dbContextFactory = new DbContextFactory(dbContextOptions, adminUserCredentials);
+            var dbContextFactory = new DbContextFactory(dbContextOptions, Configuration);
             
             services.TryAddScoped<IDbContext>(ctx => dbContextFactory.CreateUserDbContext());
             services.AddSingleton<IPasswordHasher, PasswordHasher>();

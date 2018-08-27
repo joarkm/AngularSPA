@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace AngularSPA.Data
 {
@@ -11,17 +12,35 @@ namespace AngularSPA.Data
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly Credentials _credentials;
+        private readonly IConfiguration _configuration;
 
         public UserDbInitializer(
             ApplicationDbContext dbContext,
             IPasswordHasher passwordHasher,
-            Credentials credentials
-        )
+            IConfiguration configuration)
         {
-            _credentials = credentials;
+            _configuration = configuration;
             _passwordHasher = passwordHasher;
             _dbContext = dbContext;
+        }
+
+        private bool SeedFromConfig()
+        {
+            var claimTypesSection = _configuration.GetSection(nameof(ClaimType));
+            var claimTypes = claimTypesSection.Get<ClaimType[]>();
+            
+            // Read admin user credentials from appsettings
+            var credentialsSection = _configuration.GetSection(nameof(Credentials));
+            var adminUserCredentials = credentialsSection.GetSection("Admin").Get<Credentials>();
+
+
+            return SeedEntities(claimTypes) && SeedAdminUser(adminUserCredentials);
+        }
+
+        public bool SeedEntities<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+        {
+            _dbContext.Set<TEntity>().AddRange(entities);
+            return Convert.ToBoolean(_dbContext.SaveChanges());
         }
 
         public bool SeedContext()
@@ -35,7 +54,7 @@ namespace AngularSPA.Data
                 return false;
             }
             
-            return SeedRoles() && SeedAdminUser() && SeedRegularUser();
+            return SeedRoles() && SeedRegularUser() && SeedFromConfig();
         }
 
         private bool SeedRoles()
@@ -66,17 +85,17 @@ namespace AngularSPA.Data
             return Convert.ToBoolean(_dbContext.SaveChanges());
         }
 
-        private bool SeedAdminUser()
+        private bool SeedAdminUser(Credentials credentials)
         {
             var adminRole = _dbContext.Role
                 .FirstOrDefault(role => role.Name.Equals("Admin"));
             if (adminRole == null) return false;
             var adminUser = new User
             {
-                UserName = _credentials.UserName,
+                UserName = credentials.UserName,
                 Password = new Password
                 {
-                    Hash = _passwordHasher.CreatePasswordHash(_credentials.Password)
+                    Hash = _passwordHasher.CreatePasswordHash(credentials.Password)
                 },
                 Role = adminRole
             };
