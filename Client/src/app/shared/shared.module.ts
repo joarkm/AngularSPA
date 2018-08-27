@@ -9,6 +9,7 @@ import { SPABgComponent } from './components/spa-bg/spa-bg.component';
 import { SPACardComponent } from './components/spa-card/spa-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
 import { AdminService } from './services/admin.service';
+import { ContainerComponent } from './components/container/container.component';
 
 @NgModule({
   imports: [
@@ -18,12 +19,15 @@ import { AdminService } from './services/admin.service';
     RouterModule,
   ],
   declarations: [
+    ContainerComponent,
     HeaderComponent,
     SPABgComponent,
     SPACardComponent,
-    TableCardComponent
+    TableCardComponent,
+    ContainerComponent
   ],
   exports: [
+    ContainerComponent,
     HeaderComponent,
     SPABgComponent,
     SPACardComponent,
