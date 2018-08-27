@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace AngularSPA.Extensions
 {
@@ -14,7 +10,9 @@ namespace AngularSPA.Extensions
             var seedDataPath = "Data" + Path.DirectorySeparatorChar
                                 + "SeedData" + Path.DirectorySeparatorChar;
             return configurationBuilder
-                    .AddJsonFile(seedDataPath + "claim_types.json", optional: true, reloadOnChange: false);
+                    .AddJsonFile(seedDataPath + "claim_types.json", optional: true, reloadOnChange: false)
+                    .AddJsonFile(seedDataPath + "roles.json", optional: true, reloadOnChange: false)
+                    .AddJsonFile(seedDataPath + "users.json", optional: true, reloadOnChange: false);
         }
     }
 }

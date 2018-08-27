@@ -3,6 +3,7 @@ using AngularSPA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AngularSPA.Models.SeedModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -32,9 +33,36 @@ namespace AngularSPA.Data
             // Read admin user credentials from appsettings
             var credentialsSection = _configuration.GetSection(nameof(Credentials));
             var adminUserCredentials = credentialsSection.GetSection("Admin").Get<Credentials>();
+            
+            // Read roles from config
+            var rolesSection = _configuration.GetSection(nameof(Role));
+            var roles = rolesSection.Get<Role[]>();
+            // Seed role entities
+            SeedEntities(roles);
 
+            // Read roles from config
+            var usersSection = _configuration.GetSection(nameof(User));
+            var usersSeedModels = usersSection.Get<UserSeedModel[]>();
 
-            return SeedEntities(claimTypes) && SeedAdminUser(adminUserCredentials);
+            var users = usersSeedModels
+                .Select(usr => new User
+                {
+                    UserName = usr.UserName,
+                    Role = new Role
+                    {
+                        Name = usr.Role
+                    },
+                    Password = new Password
+                    {
+                        Hash = _passwordHasher.CreatePasswordHash(usr.Password)
+                    }
+                })
+                .ToArray();
+
+            SeedEntities(users);
+            
+
+            return SeedEntities(claimTypes);
         }
 
         public bool SeedEntities<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
@@ -54,7 +82,7 @@ namespace AngularSPA.Data
                 return false;
             }
             
-            return SeedRoles() && SeedRegularUser() && SeedFromConfig();
+            return SeedFromConfig();
         }
 
         private bool SeedRoles()
@@ -82,6 +110,21 @@ namespace AngularSPA.Data
 
             _dbContext.Role.AddRange(roles);
             
+            return Convert.ToBoolean(_dbContext.SaveChanges());
+        }
+
+        private bool SeedUser(Credentials credentials, Role role)
+        {
+            var user = new User
+            {
+                UserName = credentials.UserName,
+                Password = new Password
+                {
+                    Hash = _passwordHasher.CreatePasswordHash(credentials.Password)
+                },
+                Role = role
+            };
+            _dbContext.User.Add(user);
             return Convert.ToBoolean(_dbContext.SaveChanges());
         }
 
