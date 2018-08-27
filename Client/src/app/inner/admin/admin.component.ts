@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  iconPath: string;
+
+  constructor() { 
+    this.iconPath = 'assets/images/icons/128x128';
+  }
 
   ngOnInit() {
   }

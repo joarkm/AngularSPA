@@ -1,5 +1,20 @@
 <div class="jumbotron">
-    <h3>Admin</h3>
-    <router-outlet></router-outlet>
-  </div>
-  
+  <h3>Admin</h3>
+  <ul class='nav navbar-nav'>
+    <li [routerLinkActive]="['link-active']">
+      <div class="mt-2">
+        <a routerLink="/admin">
+          <button class="btn btn-spa-light btn-sm">
+            <img src="{{iconPath}}/white/home.png" height="24px">
+          </button>
+        </a>
+        <a routerLink="./accounts">
+          <button class="btn btn-spa-light btn-sm">
+            <img src="{{iconPath}}/001-user.png" height="24px"> Accounts
+          </button>
+        </a>
+      </div>
+    </li>
+  </ul>
+  <router-outlet></router-outlet>
+</div>
