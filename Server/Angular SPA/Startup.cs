@@ -60,6 +60,7 @@ namespace AngularSPA
             
             services.TryAddScoped<IDbContext>(ctx => dbContextFactory.CreateUserDbContext());
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddJwt();
 
             services.AddMvc();
         }
@@ -72,6 +73,9 @@ namespace AngularSPA
                 app.UseDeveloperExceptionPage();
             }
 
+            // IMPORTANT! UseAuthentication() must be called before UseMvc()
+
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
