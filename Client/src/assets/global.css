@@ -3,7 +3,7 @@
     --color-primary: #333;
     --color-primary-light: #648b67;
     --color-primary-medium: #4e9154;
-    --color-primary-dark: #000128;
+    --color-primary-dark: #0a0a0f;
     --color-primary-text: #ffffff;
 }
 
@@ -18,6 +18,11 @@ div .bg-spa {
 div .bg-spa-light {
     background-color: var(--color-primary-light);
 }
+
+div .bg-spa-medium {
+    background-color: var(--color-primary-medium);
+}
+
 .btn-spa { 
     color: var(--color-primary-text);
     background-color: #4e9154;
