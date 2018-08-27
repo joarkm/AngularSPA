@@ -8,6 +8,7 @@ import { AuthService } from './services/auth.service';
 import { SPABgComponent } from './components/spa-bg/spa-bg.component';
 import { SPACardComponent } from './components/spa-card/spa-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
+import { AdminService } from './services/admin.service';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        AuthService
+        AdminService,
+        AuthService,
       ]
     }
   }
