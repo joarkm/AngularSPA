@@ -24,11 +24,10 @@ namespace AngularSPA
         public Startup(IHostingEnvironment env)
         {
             var config = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddSeedConfiguration()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
             Configuration = config;
@@ -39,16 +38,23 @@ namespace AngularSPA
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(builder =>
+            {
+                builder.AddConfiguration(Configuration.GetSection("Logging"))
+                    .AddConsole()
+                    .AddDebug();
+            });
+            
             var id = string.Format("{0}.db", Guid.NewGuid().ToString());
 
-            var builder = new SqliteConnectionStringBuilder()
+            var connectionStringBuilder = new SqliteConnectionStringBuilder()
             {
                 DataSource = id,
                 Mode = SqliteOpenMode.Memory,
                 Cache = SqliteCacheMode.Shared
             };
 
-            var connection = new SqliteConnection(builder.ConnectionString);
+            var connection = new SqliteConnection(connectionStringBuilder.ConnectionString);
             connection.Open();
             connection.EnableExtensions();
 
