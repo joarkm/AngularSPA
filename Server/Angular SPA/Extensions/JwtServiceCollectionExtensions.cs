@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
-using AngularSPA.Auth;
+using AngularSPA.Auth.Helpers;
 
 namespace AngularSPA.Extensions
 {

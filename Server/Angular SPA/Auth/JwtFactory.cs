@@ -11,16 +11,16 @@
  *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Auth/JwtFactory.cs
  */
 
+using AngularSPA.Auth.Helpers;
+using AngularSPA.Helpers;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Claim = System.Security.Claims.Claim;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using Claim = System.Security.Claims.Claim;
 
 namespace AngularSPA.Auth
 {
@@ -76,8 +76,8 @@ namespace AngularSPA.Auth
 
             var claimsIdentity = new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id.ToString()),
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, roleName), // To be discontinued
+                new Claim(Constants.Strings.JwtClaimIdentifiers.Id, id.ToString()),
+                new Claim(Constants.Strings.JwtClaimIdentifiers.Rol, roleName), // To be discontinued
                 new Claim(ClaimTypes.Role, roleName)
             });
             claimsIdentity.AddClaims(rights);

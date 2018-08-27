@@ -1,8 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
-namespace AngularSPA.Auth
+namespace AngularSPA.Auth.Helpers
 {
     public class JwtIssuerOptions
     {

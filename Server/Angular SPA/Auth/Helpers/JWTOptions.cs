@@ -1,4 +1,4 @@
-﻿namespace AngularSPA.Auth
+﻿namespace AngularSPA.Auth.Helpers
 {
     public class JwtOptions
     {
