@@ -55,6 +55,11 @@ namespace AngularSPA.Data
                     Password = new Password
                     {
                         Hash = _passwordHasher.CreatePasswordHash(usr.Password)
+                    },
+                    Person = usr.Person == null ? null : new Person
+                    {
+                        GivenName = usr.Person.GivenName,
+                        Surname = usr.Person.SurName
                     }
                 })
                 .ToArray();
