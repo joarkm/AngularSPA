@@ -5,6 +5,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { SPABgComponent } from './components/spa-bg/spa-bg.component';
+import { SPACardComponent } from './components/spa-card/spa-card.component';
+import { TableCardComponent } from './components/table-card/table-card.component';
 
 @NgModule({
   imports: [
@@ -14,10 +17,16 @@ import { AuthService } from './services/auth.service';
     RouterModule,
   ],
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    SPABgComponent,
+    SPACardComponent,
+    TableCardComponent
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    SPABgComponent,
+    SPACardComponent,
+    TableCardComponent
   ]
 })
 export class SharedModule { 

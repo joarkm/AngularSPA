@@ -1,0 +1,19 @@
+<div class="card spa-card my-2">
+  <div class="card-header bg-spa text-spa text-left d-table py-1">
+    <div class="d-table-row text-white px-4" [ngClass]="{clickable: collapsible}" (click)="collapsible ? changeState() : null">
+
+      <div class="d-table-cell pt-1">
+        <h5 class="mb-0 text-vertical-align"><img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" /> {{ header }}</h5>
+      </div>
+      <div class="d-table-cell pb-0 text-right">
+        <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (mouseover)="collapsedIconColor=''" (mouseout)="collapsedIconColor='white/'">
+          <img src="{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}" height="16px">
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-body p-2" *ngIf="!collapsed">
+    <ng-content></ng-content>
+  </div>
+</div>
