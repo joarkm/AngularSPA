@@ -70,7 +70,7 @@ namespace AngularSPA.Auth
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id, string roleName, IList<Claim> rights)
+        public ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id, string roleName, List<Claim> rights)
             where TKey : IEquatable<TKey>
         {
 

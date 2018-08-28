@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AngularSPA.Auth;
 using AngularSPA.Data;
 using AngularSPA.Extensions;
 using AngularSPA.Helpers;
@@ -66,6 +67,7 @@ namespace AngularSPA
             
             services.TryAddScoped<IDbContext>(ctx => dbContextFactory.CreateUserDbContext());
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<ISignInManager, SignInManager>();
             services.AddJwt();
 
             services.AddMvc();

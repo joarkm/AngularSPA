@@ -21,6 +21,6 @@ namespace AngularSPA.Auth
     public interface IJwtFactory
     {
         Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity);
-        ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id, string roleName, IList<Claim> rights) where TKey: IEquatable<TKey>;
+        ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id, string roleName, List<Claim> rights) where TKey: IEquatable<TKey>;
     }
 }
