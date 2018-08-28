@@ -1,4 +1,4 @@
-using AngularSPA.Helpers;
+﻿using AngularSPA.Helpers;
 using AngularSPA.Models;
 using AngularSPA.Models.SeedModels;
 using Microsoft.EntityFrameworkCore;
@@ -150,14 +150,8 @@ namespace AngularSPA.Data
 
         public bool SeedContext()
         {
-            try
-            {
-                _dbContext.Database.EnsureCreated();
-            }
-            catch (Exception)
-            {
+            if (_dbContext.IsSeeded())
                 return false;
-            }
             
             return SeedFromConfig();
         }

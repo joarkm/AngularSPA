@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,6 +63,12 @@ namespace AngularSPA
                 .UseSqlite(connection)
                 .Options;
 
+            services.TryAddSingleton(ctx => new UserDbInitializer(
+                    new ApplicationDbContext(dbContextOptions),
+                    new PasswordHasher(),
+                    Configuration
+            ));
+
             var dbContextFactory = new DbContextFactory(dbContextOptions, Configuration);
             
             services.TryAddScoped<IDbContext>(ctx => dbContextFactory.CreateUserDbContext());
@@ -79,6 +85,19 @@ namespace AngularSPA
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var serviceProvider = scope.ServiceProvider;
+                    var dbContext = serviceProvider.GetService<IDbContext>();
+                    var appDbContext = dbContext as ApplicationDbContext;
+                    var dbInitializer = serviceProvider.GetService<UserDbInitializer>();
+
+                    if (!appDbContext.IsSeeded())
+                    {
+                        dbInitializer.SeedContext();
+                    }
+                }
             }
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()

@@ -1,4 +1,5 @@
-﻿using AngularSPA.Helpers;
+﻿using AngularSPA.Extensions;
+using AngularSPA.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -22,7 +23,8 @@ namespace AngularSPA.Data
         {
             var userDbContext = new ApplicationDbContext(_dbContextOptions);
             var initializer = new UserDbInitializer(userDbContext, new PasswordHasher(), _configuration);
-            initializer.SeedContext();
+            if(!userDbContext.IsSeeded())
+                initializer.SeedContext();
             return userDbContext;
         }
     }
