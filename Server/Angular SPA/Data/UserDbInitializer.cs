@@ -1,11 +1,13 @@
-﻿using AngularSPA.Helpers;
+using AngularSPA.Helpers;
 using AngularSPA.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AngularSPA.Models.SeedModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AngularSPA.Extensions;
 
 namespace AngularSPA.Data
 {
@@ -29,16 +31,85 @@ namespace AngularSPA.Data
         {
             var claimTypesSection = _configuration.GetSection(nameof(ClaimType));
             var claimTypes = claimTypesSection.Get<ClaimType[]>();
-            
-            // Read admin user credentials from appsettings
-            var credentialsSection = _configuration.GetSection(nameof(Credentials));
-            var adminUserCredentials = credentialsSection.GetSection("Admin").Get<Credentials>();
-            
+
+            // Seed ClaimType entities
+            SeedEntities(claimTypes);
+
+            var claimsSection = _configuration.GetSection(nameof(Claim));
+            var claimsSeedModels = claimsSection.Get<ClaimSeedModel[]>();
+
+            foreach (var claimsSeedModel in claimsSeedModels)
+            {
+                var claimType = _dbContext.ClaimType
+                    .Single(ct => ct.Name.Equals(claimsSeedModel.ClaimType));
+                _dbContext.Claim.Add(new Claim
+                {
+                    ClaimType = claimType,
+                    ClaimValue = claimsSeedModel.ClaimValue
+                });
+            }
+
+            // Seed Claim entities
+            _dbContext.SaveChanges();
+
             // Read roles from config
             var rolesSection = _configuration.GetSection(nameof(Role));
-            var roles = rolesSection.Get<Role[]>();
-            // Seed role entities
+            var roleSeedModels = rolesSection.Get<RoleSeedModel[]>();
+
+            var roles = roleSeedModels
+                .Select(rol => new Role
+                {
+                    Name = rol.RoleName,
+                    NormalizedName = rol.RoleName.ToUpperInvariant(),
+                    Description = rol.RoleDescription
+                })
+                .ToArray();
+
+            // Seed Role entities
             SeedEntities(roles);
+
+            // Assign claims to roles
+            //foreach (var roleSeedModel in roleSeedModels)
+            //{
+            //    var claimSeedModels = roleSeedModel.Claim;
+            //    // DbContext is not thread safe, so this does not work...
+            //    Parallel.ForEach(claimSeedModels, (claimSeedModel) =>
+            //    {
+            //        var claim = _dbContext.Claim
+            //            .FirstOrDefault(cl =>
+            //                cl.ClaimType.Name.Equals(claimSeedModel.ClaimType)
+            //                && cl.ClaimValue.Equals(claimSeedModel.ClaimValue));
+            //        var role = _dbContext.Role.Single(rol => rol.Name.Equals(roleSeedModel.RoleName));
+            //        var roleClaim = new RoleClaim
+            //        {
+            //            Role = role,
+            //            Claim = claim
+            //        };
+            //        _dbContext.RoleClaim.Add(roleClaim);
+            //    });
+
+            //}
+            //// Seed RoleClaim entities
+            //_dbContext.SaveChanges();
+
+            foreach (var roleSeedModel in roleSeedModels)
+            {
+                foreach (var claimSeedModel in roleSeedModel.Claim)
+                {
+                    var claim = _dbContext.Claim
+                        .FirstOrDefault(cl =>
+                            cl.ClaimType.Name.Equals(claimSeedModel.ClaimType)
+                            && cl.ClaimValue.Equals(claimSeedModel.ClaimValue));
+                    var role = _dbContext.Role.Single(rol => rol.Name.Equals(roleSeedModel.RoleName));
+                    var roleClaim = new RoleClaim
+                    {
+                        Role = role,
+                        Claim = claim
+                    };
+                    _dbContext.RoleClaim.Add(roleClaim);
+                }
+            }
+            _dbContext.SaveChanges();
 
             // Read roles from config
             var usersSection = _configuration.GetSection(nameof(User));
@@ -48,10 +119,7 @@ namespace AngularSPA.Data
                 .Select(usr => new User
                 {
                     UserName = usr.UserName,
-                    Role = new Role
-                    {
-                        Name = usr.Role
-                    },
+                    Role = _dbContext.Role.Single(rol => rol.Name.Equals(usr.Role)),
                     Password = new Password
                     {
                         Hash = _passwordHasher.CreatePasswordHash(usr.Password)
@@ -60,14 +128,18 @@ namespace AngularSPA.Data
                     {
                         GivenName = usr.Person.GivenName,
                         Surname = usr.Person.SurName
-                    }
+                    },
                 })
                 .ToArray();
 
+            // Seed User entities
             SeedEntities(users);
-            
 
-            return SeedEntities(claimTypes);
+            // Read admin user credentials from appsettings
+            var credentialsSection = _configuration.GetSection(nameof(Credentials));
+            var adminUserCredentials = credentialsSection.GetSection("Admin").Get<Credentials>();
+
+            return true;
         }
 
         public bool SeedEntities<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
