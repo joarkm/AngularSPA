@@ -1,0 +1,13 @@
+﻿{
+  "User": [
+    {
+      "UserName": "",
+      "Password": "",
+      "Role": "",
+      "Person": {
+        "GivenName": "",
+        "Surname": ""
+      }
+    }
+  ]
+}
